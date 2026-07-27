@@ -1,0 +1,85 @@
+#imports libaries 
+import time
+import RPi.GPIO as GPIO  # this gives us access to the gpios
+ 
+current_time = time.time()
+motor_time = 2.0
+CHANNELS = [17, 27, 22]  # gpio channels
+MOTORS = [1, 2, 3]
+def init_driver():   # initialises the driver 
+    GPIO.setmode(GPIO.BCM)
+    for pin in CHANNELS:
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, GPIO.LOW)
+ 
+def motor(motor_num): # retracts the motors
+    if (motor_num != "1" and motor_num != "2" and motor_num != "3" and motor_num != "12" and motor_num != "13" and motor_num != "23"):
+       # validation for the input of which motors to activate
+    else:
+        if (motor_num == "1"):
+            GPIO.output(CHANNELS[1], GPIO.HIGH) # this should control the outputs to the motors to be on
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[1], GPIO.LOW)  # this should control the outputs to the motors to be off
+            GPIO.output(CHANNELS[2], GPIO.HIGH) 
+            GPIO.output(CHANNELS[3], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[2], GPIO.LOW)
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+        
+        if (motor_num == "2"):
+            GPIO.output(CHANNELS[2], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[2], GPIO.LOW)  
+            GPIO.output(CHANNELS[1], GPIO.HIGH) 
+            GPIO.output(CHANNELS[3], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[1], GPIO.LOW)  
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+            
+        if (motor_num == "3"):
+            GPIO.output(CHANNELS[3], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+            GPIO.output(CHANNELS[2], GPIO.HIGH) 
+            GPIO.output(CHANNELS[1], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[1], GPIO.LOW)  
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+
+        if (motor_num == "12"):
+            GPIO.output(CHANNELS[1], GPIO.HIGH) 
+            GPIO.output(CHANNELS[2], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[1], GPIO.LOW)  
+            GPIO.output(CHANNELS[2], GPIO.LOW)  
+            GPIO.output(CHANNELS[3], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+            
+        if (motor_num == "13"):
+            GPIO.output(CHANNELS[1], GPIO.HIGH) 
+            GPIO.output(CHANNELS[3], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[1], GPIO.LOW)  
+            GPIO.output(CHANNELS[3], GPIO.LOW)  
+            GPIO.output(CHANNELS[2], GPIO.HIGH) 
+            time.sleep(motor_time)
+            GPIO.output(CHANNELS[2], GPIO.LOW)  
+            
+        
+    if (motor_num == "23"):
+        GPIO.output(CHANNELS[2], GPIO.HIGH) 
+        GPIO.output(CHANNELS[3], GPIO.HIGH) 
+        time.sleep(motor_time)
+        GPIO.output(CHANNELS[2], GPIO.LOW)  
+        GPIO.output(CHANNELS[3], GPIO.LOW)  
+        GPIO.output(CHANNELS[1], GPIO.HIGH) 
+        time.sleep(motor_time)
+        GPIO.output(CHANNELS[1], GPIO.LOW)  
+
+
+
+ 
+    
+def shutdown_driver(): # shuts the driver off
+    GPIO.cleanup()
